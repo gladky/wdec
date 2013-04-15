@@ -12,10 +12,10 @@ public class DecisionUtils {
 	// Pobiera dane wejściowe i dodaje do tablicy etapów nowy etap
 
 	public Stage newStage(DataIn dataIn) {
-
-		stageTab[stageCounter] = new Stage(dataIn);
 		stageCounter++;
-		return stageTab[stageCounter];
+		stageTab[stageCounter - 1] = new Stage(dataIn);
+		
+		return stageTab[stageCounter - 1];
 	}
 
 	public Stage getStage(int i) {

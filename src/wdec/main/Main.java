@@ -12,15 +12,14 @@ public class Main {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
+		System.out.println("running");
 		
 		
 		MainWindow mainWindow = new MainWindow();
+		System.out.println("Main Window created");
 		mainWindow.setVisible(true);
-		System.out.println("new stage created");
-		DecisionUtils decUt = new DecisionUtils();
 		
-		decUt.newStage(new DataIn(1.0,1.0,1.0));
-		decUt.newStage(new DataIn(1.0,1.0,1.0));
+		
 	}
 
 }

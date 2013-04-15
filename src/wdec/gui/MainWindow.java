@@ -7,6 +7,7 @@ package wdec.gui;
 import javax.swing.plaf.SliderUI;
 
 import wdec.decision_utils.DataIn;
+import wdec.decision_utils.DecisionUtils;
 import wdec.decision_utils.Stage;
 
 /**
@@ -15,11 +16,23 @@ import wdec.decision_utils.Stage;
  */
 public class MainWindow extends javax.swing.JFrame {
 
+	Stage stage;
+	
     /**
      * Creates new form main
      */
     public MainWindow() {
-        initComponents();
+        
+        
+        System.out.println("creating new stage");
+		DecisionUtils decUt = new DecisionUtils();
+		
+		stage = decUt.newStage(new DataIn(1.0,1.0,1.0));
+		stage = decUt.newStage(new DataIn(1.0,1.0,1.0));
+		
+		if(stage == null) System.out.println("dupa");
+		
+		initComponents();
     }
 
     /**
@@ -35,8 +48,8 @@ public class MainWindow extends javax.swing.JFrame {
     	
     	DataIn dataIn = new DataIn(20000,1000,10);
     	
-    	Stage stage = new Stage(dataIn);
-    	stage.fillWithSampleData();
+    	
+    	
     	chart.setModel(stage);
     	
     	chart.setBackground(new java.awt.Color(254, 254, 254));

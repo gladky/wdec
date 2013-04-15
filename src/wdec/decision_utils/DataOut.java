@@ -89,9 +89,15 @@ public class DataOut {
 	}
 	
 	public DataOut(){
-		
+		this.quantity = 0;
+		this.price = 0;
+		this.television = 0;
+		this.internet = 0;
+		this.magazines = 0;
 	}
 	
-	
+	public double getResult(){
+		return quantity * price - television - internet - magazines;
+	}
 
 }

@@ -52,8 +52,10 @@ public class Chart extends Canvas
 				continue;
 			}
 			
+			//System.out.println("best for risk " + i + " is " + r.getResult());
+			
 			int x = (int) ( i * (this.getWidth() - 40) / 100);
-			int y = (int) (i * (this.getHeight() - 50) /100 );
+			int y = (int) (r.getResult() * (this.getHeight() - 50) /50000000 );
 			
 			if (i == ryzyko)
 			{
