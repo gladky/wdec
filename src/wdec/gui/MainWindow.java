@@ -4,6 +4,11 @@
  */
 package wdec.gui;
 
+import javax.swing.plaf.SliderUI;
+
+import wdec.decision_utils.DataIn;
+import wdec.decision_utils.Stage;
+
 /**
  *
  * @author gladky
@@ -25,6 +30,17 @@ public class MainWindow extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+    	
+    	chart = new Chart();
+    	
+    	DataIn dataIn = new DataIn(20000,1000,10);
+    	
+    	Stage stage = new Stage(dataIn);
+    	stage.fillWithSampleData();
+    	chart.setModel(stage);
+    	
+    	chart.setBackground(new java.awt.Color(254, 254, 254));
+        chart.setCursor(new java.awt.Cursor(java.awt.Cursor.CROSSHAIR_CURSOR));
 
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -210,17 +226,59 @@ public class MainWindow extends javax.swing.JFrame {
 
         jLabel18.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel18.setText("Wykres");
+        
+        
+        //////////////
+       // jPanel5.setLayout(jPanel5Layout);
+       // jPanel5.addComponent(chart, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
+       // chart.repaint();
+        //////////////
 
+        //javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+       
+       // jPanel5Layout.setHorizontalGroup(
+       //     jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+       //     .addGap(0, 0, Short.MAX_VALUE)
+       // );
+       // jPanel5Layout.setVerticalGroup(
+      //      jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+       //     .addGap(0, 230, Short.MAX_VALUE)
+        //);
+        
+        //output -> jPanel5
+        //outputLayout -> jPanel5Layout
+        
+        
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(chart, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                              .addContainerGap()))
+                .addContainerGap(12, Short.MAX_VALUE))
+        )));
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 230, Short.MAX_VALUE)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(chart, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                )
         );
+        
+        
+        chart.repaint();
+        
+ 
+        
+        
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -384,18 +442,32 @@ public class MainWindow extends javax.swing.JFrame {
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+        
+        jSlider1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSlider1StateChanged(evt);
+            }
+        });
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+    	chart.repaint();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jSlider1StateChanged(javax.swing.event.ChangeEvent evt) {                                      
+        // TODO add your handling code here:
+    	int ryzyko = (int) jSlider1.getValue();
+		chart.updateRyzyko(ryzyko);
+		chart.repaint();
+		//updateOutput();
+    }  
     /**
      * @param args the command line arguments
      */
@@ -472,4 +544,6 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
     // End of variables declaration//GEN-END:variables
+    
+    private Chart chart;
 }

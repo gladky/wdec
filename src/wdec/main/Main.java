@@ -11,7 +11,9 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
+		
+		
+		
 		MainWindow mainWindow = new MainWindow();
 		mainWindow.setVisible(true);
 		System.out.println("new stage created");

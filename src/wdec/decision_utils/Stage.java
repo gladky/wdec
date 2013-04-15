@@ -1,16 +1,16 @@
 package wdec.decision_utils;
 
 public class Stage {
-
+	
 	private DataIn stageDataIn;
 	private DataOut stageDataTab[];
 	private DataOut stageDataOut;
-
+	
 	// Wolumen
 	private static final int maxQuantity = 400000;
 	private static final int minQuantity = 100;
 	private static final int stepQuantity = 1000;
-	// JakoÅ›Ä‡
+	// Jakoœæ
 	private static final double maxQuality = 100;
 	private static final double minQuality = 1;
 	private static final double stepQuality = 1;
@@ -45,7 +45,7 @@ public class Stage {
 				+ (int) (quality * 3 + price * 4 + (magazinesAd + televisionAd + internetAd) * 4);
 	}
 
-	private void findDataOut(DataIn dataIn) {
+	private void findDataOut(DataIn dataIn){
 		// TODO poplatane petle for dla kazdej wejsciowej danej
 		long time;
 		System.out.println(time=System.currentTimeMillis());
@@ -62,22 +62,35 @@ public class Stage {
 					}
 				}
 			}
-
-		}
+		
+	}
 		System.out.println(System.currentTimeMillis()-time);
-
+	
 	}
 
-	public DataOut findBestData(int risk) {
+	public DataOut findBestData(int risk){
 
 		return stageDataTab[risk];
 	}
-
+	
 	public Stage(DataIn dataIn) {
-
-		stageDataIn = dataIn;
-		stageDataTab = new DataOut[100];
+	
+		stageDataIn=dataIn;
+		stageDataTab = new DataOut[101];
 		findDataOut(stageDataIn);
-
+		
+	}
+	
+	public void fillWithSampleData(){
+		for (int i=0; i<101; i++)
+		{
+			DataOut dataOut = new DataOut();
+			dataOut.setPrice(15);
+			dataOut.setQuality(50);
+			dataOut.setQuantity(30000);
+			
+			stageDataTab[i] = dataOut;
+			
+		}
 	}
 }
