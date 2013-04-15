@@ -23,6 +23,8 @@ public class DataIn {
 	public double getShares() {
 		return shares;
 	}
+	
+	//TODO koszt jednostkowy, amortyzacja
 
 
 	public DataIn(double amountOfMoney, double halfPriceSell, double shares) {
