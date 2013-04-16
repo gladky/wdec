@@ -29,7 +29,7 @@ public class DecisionUtils {
 
 	public DecisionUtils() {
 		stageCounter = 0;
-		stageTab = new Stage[6];
+		stageTab = new Stage[100];
 
 	}
 }

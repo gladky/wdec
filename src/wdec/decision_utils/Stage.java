@@ -9,28 +9,28 @@ public class Stage {
 	// Wolumen
 	private static final int maxQuantity = 400000;
 	private static final int minQuantity = 100;
-	private static final int stepQuantity = 50000;
+	private static final int stepQuantity = 5000;
 	// Jako��
 	private static final double maxQuality = 100;
 	private static final double minQuality = 2;
-	private static final double stepQuality = 10;
+	private static final double stepQuality = 1;
 	// Cena
 	private static final double maxPrice = 40;
 	private static final double minPrice = 10;
-	private static final double stepPrice = 10;
+	private static final double stepPrice = 1;
 	// Reklama
 	// Czasopisma
 	private static final double maxMagazines = 100000;
-	private static final double minMagazines = 10000;
-	private static final double stepMagazines = 10000;
+	private static final double minMagazines = 0;
+	private static final double stepMagazines = 50000;
 	// Telewizja
 	private static final double maxTelevision = 100000;
-	private static final double minTelevision = 10000;
-	private static final double stepTelevision = 10000;
+	private static final double minTelevision = 0;
+	private static final double stepTelevision = 50000;
 	// Internet
 	private static final double maxInternet = 100000;
 	private static final double minInternet = 10000;
-	private static final double stepInternet = 10000;
+	private static final double stepInternet = 1000;
 
 	// Kredyt
 	private double maxCredit;
@@ -63,11 +63,11 @@ public class Stage {
 		 * współczynniki parametrów
 		 */
 		int quantityRate = 1;
-		int qualityRate = 10;
-		int priceRate = 10;
+		int qualityRate = 300;
+		int priceRate = 500;
 		int magazinesAdRate = 3;
 		int televisionAdRate = 3;
-		int internetAdRate = 3;
+		int internetAdRate = 100;
 
 		double all = quantityRate + qualityRate + priceRate + magazinesAdRate
 				+ televisionAdRate + internetAdRate;
@@ -99,11 +99,14 @@ public class Stage {
 		else if(televisionAd < 0d) normTelevisionAd = 0;
 		else normTelevisionAd = (int)televisionAd/1000;
 		
+		int normQuality;
+		normQuality = (int)(100 - quality);
+		
 		/**
 		 * parametr risk jest w zakresie 0-100 0 oznacza małe ryzyko 100 oznacza
 		 * duże ryzyko
 		 */
-		double risk =  (normQuantity * quantityRate + quality * qualityRate + normPrice
+		double risk =  (normQuantity * quantityRate + normQuality * qualityRate + normPrice
 				* priceRate + normMagazinesAd * magazinesAdRate + normTelevisionAd
 				* televisionAdRate + normInternetAd * internetAdRate)/all;
 		 tmp[(int)risk] ++;
@@ -148,7 +151,7 @@ public class Stage {
 										magazines, television, internet);
 								
 								//if(result > 0) System.out.println("curr result bigger than 0 " + result);
-								if(stageDataTab[risk].getResult() < result){
+								if((stageDataTab[risk].getResult() < result) && dopuszczalne(risk,dataIn)){
 									//System.out.println("better solution");
 									//stageDataTab[risk].setCredit(credit);
 									stageDataTab[risk].setQuantity(quantity);
@@ -156,7 +159,7 @@ public class Stage {
 									stageDataTab[risk].setPrice(price);
 									stageDataTab[risk].setMagazines(magazines);
 									stageDataTab[risk].setTelevision(television);
-									stageDataTab[risk].setInstalment(internet);
+									stageDataTab[risk].setInternet(internet);
 								}
 								
 								
@@ -177,6 +180,18 @@ public class Stage {
 		
 	}
 
+	private boolean dopuszczalne(int risk, DataIn dataIn){
+		boolean result = true;
+		
+		double adv = stageDataTab[risk].getTelevision() + stageDataTab[risk].getMagazines() + stageDataTab[risk].getInternet();
+		double prod = stageDataTab[risk].getQuantity() * 10; //TODO cena produkcji jest zmienna
+		double wydatki = prod + adv;
+		
+		if(wydatki > dataIn.getAmountOfMoney()) result = false;
+		
+		return result;
+	}
+	
 	public DataOut findBestData(int risk) {
 
 		return stageDataTab[risk];
