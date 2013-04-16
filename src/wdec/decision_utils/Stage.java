@@ -9,10 +9,10 @@ public class Stage {
 	// Wolumen
 	private static final int maxQuantity = 400000;
 	private static final int minQuantity = 100;
-	private static final int stepQuantity = 100;
+	private static final int stepQuantity = 50000;
 	// Jako��
 	private static final double maxQuality = 100;
-	private static final double minQuality = 1;
+	private static final double minQuality = 2;
 	private static final double stepQuality = 10;
 	// Cena
 	private static final double maxPrice = 40;

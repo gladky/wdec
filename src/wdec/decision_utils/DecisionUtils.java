@@ -14,7 +14,7 @@ public class DecisionUtils {
 	public Stage newStage(DataIn dataIn) {
 		stageCounter++;
 		stageTab[stageCounter - 1] = new Stage(dataIn);
-		
+		//return new Stage(dataIn);
 		return stageTab[stageCounter - 1];
 	}
 
@@ -23,8 +23,8 @@ public class DecisionUtils {
 	}
 
 	public Stage getCurrentStage() {
-
-		return stageTab[stageCounter];
+		System.out.print(stageCounter-1);
+		return stageTab[stageCounter-1];
 	}
 
 	public DecisionUtils() {
