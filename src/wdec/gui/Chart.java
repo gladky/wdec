@@ -44,6 +44,17 @@ public class Chart extends Canvas
 	 */
 	private void drawPoints(Graphics g)
 	{
+		
+		/**
+		 * znajdz max zysk aby dostosowac rysowanie wykresu
+		 */
+		double max = 0;
+		for(int m = 0; m <= 100; m++){
+			DataOut r = model.findBestData(m);
+			if(r.getResult() > max) max = r.getResult();
+		}
+		System.out.println("max " + max);
+		
 		for (int i = 0; i <= 100; i++)
 		{
 			DataOut r = model.findBestData(i);
@@ -55,7 +66,15 @@ public class Chart extends Canvas
 			//System.out.println("best for risk " + i + " is " + r.getResult());
 			
 			int x = (int) ( i * (this.getWidth() - 40) / 100);
-			int y = (int) (r.getResult() * (this.getHeight() - 50) /50000000 );
+			
+			
+			
+			
+			/**
+			 * max 				-> 	(this.getHeight - 50)
+			 * r.getResult() 	->	y
+			 */
+			int y = (int) (r.getResult() * (this.getHeight() - 50) /max );
 			
 			if (i == ryzyko)
 			{
