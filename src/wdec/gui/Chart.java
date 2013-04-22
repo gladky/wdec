@@ -13,7 +13,7 @@ import wdec.decision_utils.Stage;
 
 /**
  *
- * @author gladky
+ * @author gladky 
  */
 public class Chart extends Canvas
 {
@@ -55,8 +55,12 @@ public class Chart extends Canvas
 		}
 		System.out.println("max " + max);
 		
+		double bestResult = -1d;
+		boolean zdominejted = false;
+		
 		for (int i = 0; i <= 100; i++)
 		{
+			zdominejted = false;
 			DataOut r = model.findBestData(i);
 			if (r == null)
 			{
@@ -68,7 +72,10 @@ public class Chart extends Canvas
 			int x = (int) ( i * (this.getWidth() - 40) / 100);
 			
 			
-			
+			if(bestResult < r.getResult()){
+				bestResult = r.getResult();
+				zdominejted= true;
+			}
 			
 			/**
 			 * max 				-> 	(this.getHeight - 50)
@@ -84,8 +91,14 @@ public class Chart extends Canvas
 			}
 			else
 			{
-				g.setColor(Color.GRAY);
-				g.fillOval(x + 22, 372 - y, 6, 6);
+				if(!zdominejted){
+					g.setColor(Color.LIGHT_GRAY);
+					g.fillOval(x + 22, 372 - y, 3, 3);
+				}
+				else {
+					g.setColor(Color.DARK_GRAY);
+					g.fillOval(x + 22, 372 - y, 6, 6);
+				}
 			}
 			
 			
