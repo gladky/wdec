@@ -1,10 +1,22 @@
 package wdec.decision_utils;
 
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.charset.Charset;
+
+
 public class Stage {
 
 	private DataIn stageDataIn;
 	private DataOut stageDataTab[];
 	private DataOut stageDataOut;
+	
+	public double[][] prices;
 
 	// Wolumen
 	private static final int maxQuantity = 400000;
@@ -57,11 +69,11 @@ public class Stage {
 		/**
 		 * współczynniki parametrów
 		 */
-				
+
 		double priceDifference=price-safePrice;
 		//double risk= -0.215081*(priceDifference*priceDifference*priceDifference)+0.560578*(priceDifference*priceDifference)+14.6188*priceDifference+35.0632;
 		double risk =0.8*(priceDifference*priceDifference) + 10*priceDifference+30;
-		
+
 		double adToQuantity = internetAd/quantity;
 		
 		//-0.01 x^2+0.19 x-0.05
@@ -75,8 +87,8 @@ public class Stage {
 		else if(risk<0) risk =0;
 		
 		 tmp[(int)risk] ++;
-		 
-
+		
+		
 		 
 		return (int) risk;
 	}
@@ -88,7 +100,7 @@ public class Stage {
 			double internetAd) {
 		double result=0;
 		
-		result = quantity * price - internetAd;
+		result = quantity * price - internetAd - quantity*getPrice(quantity, (int)quality);
 		
 		//if(result > 0) System.out.println("curr result bigger than 0 " + result);
 		
@@ -130,8 +142,8 @@ public class Stage {
 							}
 						
 					
-				}
-			}
+						}
+					}
 
 		}
 		System.out.println(System.currentTimeMillis() - time);
@@ -160,9 +172,13 @@ public class Stage {
 
 		return stageDataTab[risk];
 	}
+	
+	public Stage(){
+		initPrices();
+	}
 
 	public Stage(DataIn dataIn) {
-
+		initPrices();
 		stageDataIn = dataIn;
 		this.stageDataTab = new DataOut[101];
 		
@@ -189,5 +205,41 @@ public class Stage {
 	
 	public void getTmpResult(){
 		findDataOut(stageDataIn);
+	}
+	
+	public double getPrice(int quantity, int quality){
+		double price;
+		int x = (quantity/10000)-1;
+		int y = quality-1;
+		
+		if(x<0) x=0;
+		
+		price = prices[x][y];
+		return price;
+	}
+	
+	private void initPrices(){
+		
+		File file = new File(Stage.class.getResource("/wdec/decision_utils/wdec-interpolacja.mat").getPath());
+		
+		try {
+			FileInputStream fstream = new FileInputStream(file);
+			DataInputStream in = new DataInputStream(fstream);
+			BufferedReader br = new BufferedReader(new InputStreamReader(in));
+			
+			prices = new double[40][100];
+		    for(int i =0; i<40; i++){
+		    	for(int j = 0; j < 100; j++){
+		    		prices[i][j] = Double.parseDouble(br.readLine());
+		    	}
+		    }
+			
+			in.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+	    
 	}
 }
