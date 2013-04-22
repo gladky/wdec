@@ -19,14 +19,7 @@ public class Stage {
 	private static final double minPrice = 10;
 	private static final double stepPrice = 1;
 	// Reklama
-	// Czasopisma
-	private static final double maxMagazines = 100000;
-	private static final double minMagazines = 0;
-	private static final double stepMagazines = 50000;
-	// Telewizja
-	private static final double maxTelevision = 100000;
-	private static final double minTelevision = 0;
-	private static final double stepTelevision = 50000;
+
 	// Internet
 	private static final double maxInternet = 100000;
 	private static final double minInternet = 10000;
@@ -56,8 +49,7 @@ public class Stage {
 	 * - reszta
 	 * aby to zrobić należy przyjąć pewne min i max wartości
 	 */
-	private int countRisk(int quantity, double quality, double price,
-			double magazinesAd, double televisionAd, double internetAd) {
+	private int countRisk(int quantity, double quality, double price, double internetAd) {
 		
 		/**
 		 * współczynniki parametrów
@@ -69,8 +61,7 @@ public class Stage {
 		int televisionAdRate = 3;
 		int internetAdRate = 100;
 
-		double all = quantityRate + qualityRate + priceRate + magazinesAdRate
-				+ televisionAdRate + internetAdRate;
+		double all = quantityRate + qualityRate + priceRate + internetAdRate;
 
 		/**
 		 * normalizacja parametrów
@@ -84,20 +75,12 @@ public class Stage {
 		else if(price < 0) normPrice = 0;
 		else normPrice = (int) price * 2 ;
 		
-		int normMagazinesAd;
-		if(magazinesAd > 100000) normMagazinesAd = 100;
-		else if(magazinesAd < 0d) normMagazinesAd = 0;
-		else normMagazinesAd = (int)magazinesAd/1000;
 		
 		int normInternetAd;
 		if(internetAd > 100000) normInternetAd = 100;
 		else if(internetAd < 0d) normInternetAd = 0;
 		else normInternetAd = (int)internetAd/1000;
 		
-		int normTelevisionAd;
-		if(televisionAd > 100000) normTelevisionAd = 100;
-		else if(televisionAd < 0d) normTelevisionAd = 0;
-		else normTelevisionAd = (int)televisionAd/1000;
 		
 		int normQuality;
 		normQuality = (int)(100 - quality);
@@ -107,8 +90,7 @@ public class Stage {
 		 * duże ryzyko
 		 */
 		double risk =  (normQuantity * quantityRate + normQuality * qualityRate + normPrice
-				* priceRate + normMagazinesAd * magazinesAdRate + normTelevisionAd
-				* televisionAdRate + normInternetAd * internetAdRate)/all;
+				* priceRate + normInternetAd * internetAdRate)/all;
 		 tmp[(int)risk] ++;
 		return (int) risk;
 	}
@@ -117,10 +99,10 @@ public class Stage {
 	 * Funkcja liczy zysk dla danych wejsciowych
 	 */
 	private double countResult(int quantity, double quality, double price,
-			double magazinesAd, double televisionAd, double internetAd) {
+			double internetAd) {
 		double result=0;
 		
-		result = quantity * price - magazinesAd - televisionAd - internetAd;
+		result = quantity * price - internetAd;
 		
 		//if(result > 0) System.out.println("curr result bigger than 0 " + result);
 		
@@ -142,13 +124,11 @@ public class Stage {
 		for (int quantity = minQuantity; quantity <= maxQuantity; quantity += stepQuantity) {
 			for (double quality = minQuality; quality <= maxQuality; quality += stepQuality) {
 				for (double price = minPrice; price <= maxPrice; price += stepPrice) {
-					for (double magazines = minMagazines; magazines <= maxMagazines; magazines += stepMagazines) {
-						for (double television = minTelevision; television <= maxTelevision; television += stepTelevision) {
+
 							for (double internet = minInternet; internet <= maxInternet; internet += stepInternet) {
-								risk = countRisk(quantity, quality, price, magazines,
-										television, internet);
+								risk = countRisk(quantity, quality, price, internet);
 								result = countResult(quantity, quality, price,
-										magazines, television, internet);
+										 internet);
 								
 								//if(result > 0) System.out.println("curr result bigger than 0 " + result);
 								if((stageDataTab[risk].getResult() < result) && dopuszczalne(risk,dataIn)){
@@ -157,15 +137,13 @@ public class Stage {
 									stageDataTab[risk].setQuantity(quantity);
 									stageDataTab[risk].setQuality(quality);
 									stageDataTab[risk].setPrice(price);
-									stageDataTab[risk].setMagazines(magazines);
-									stageDataTab[risk].setTelevision(television);
 									stageDataTab[risk].setInternet(internet);
 								}
 								
 								
 							}
-						}
-					}
+						
+					
 				}
 			}
 

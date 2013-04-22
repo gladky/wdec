@@ -81,8 +81,8 @@ public class DataOut {
 		this.quantity = quantity;
 		this.quality = quality;
 		this.price = price;
-		this.magazines = magazines;
-		this.television = television;
+		this.magazines = 0;
+		this.television = 0;
 		this.internet = internet;
 		this.credit = credit;
 		this.instalment = instalment;
