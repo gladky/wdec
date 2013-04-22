@@ -21,9 +21,9 @@ public class Stage {
 	// Reklama
 
 	// Internet
-	private static final double maxInternet = 100000;
+	private static final double maxInternet = 500000;
 	private static final double minInternet = 10000;
-	private static final double stepInternet = 1000;
+	private static final double stepInternet = 5000;
 
 	// Kredyt
 	private double maxCredit;
@@ -51,47 +51,33 @@ public class Stage {
 	 */
 	private int countRisk(int quantity, double quality, double price, double internetAd) {
 		
+		
+		double safePrice = 0.0000237614 * (quality*quality*quality) -0.00442492 * (quality*quality) + 0.307912 * quality + 12.6965;
+
 		/**
 		 * współczynniki parametrów
 		 */
-		int quantityRate = 1;
-		int qualityRate = 300;
-		int priceRate = 500;
-		int magazinesAdRate = 3;
-		int televisionAdRate = 3;
-		int internetAdRate = 100;
-
-		double all = quantityRate + qualityRate + priceRate + internetAdRate;
-
-		/**
-		 * normalizacja parametrów
-		 */
-		int normQuantity;
-		if(quantity < 100000) normQuantity = quantity/1000;
-		else normQuantity = 100;
+				
+		double priceDifference=price-safePrice;
+		//double risk= -0.215081*(priceDifference*priceDifference*priceDifference)+0.560578*(priceDifference*priceDifference)+14.6188*priceDifference+35.0632;
+		double risk =0.8*(priceDifference*priceDifference) + 10*priceDifference+30;
 		
-		int normPrice;
-		if(price > 50) normPrice = 100;
-		else if(price < 0) normPrice = 0;
-		else normPrice = (int) price * 2 ;
+		double adToQuantity = internetAd/quantity;
 		
+		//-0.01 x^2+0.19 x-0.05
 		
-		int normInternetAd;
-		if(internetAd > 100000) normInternetAd = 100;
-		else if(internetAd < 0d) normInternetAd = 0;
-		else normInternetAd = (int)internetAd/1000;
+		double riskPercent = -0.01*(adToQuantity*adToQuantity)+0.19*adToQuantity-0.05;
+		if(riskPercent<0.01) riskPercent = 0.01;
+		else if(riskPercent>0.8) riskPercent = 0.8;
+		risk=risk-risk*riskPercent;
 		
+		if(risk>100) risk=100;
+		else if(risk<0) risk =0;
 		
-		int normQuality;
-		normQuality = (int)(100 - quality);
-		
-		/**
-		 * parametr risk jest w zakresie 0-100 0 oznacza małe ryzyko 100 oznacza
-		 * duże ryzyko
-		 */
-		double risk =  (normQuantity * quantityRate + normQuality * qualityRate + normPrice
-				* priceRate + normInternetAd * internetAdRate)/all;
 		 tmp[(int)risk] ++;
+		 
+
+		 
 		return (int) risk;
 	}
 
@@ -120,7 +106,7 @@ public class Stage {
 		
 		// TODO poplatane petle for dla kazdej wejsciowej danej
 		long time;
-		System.out.println(time = System.currentTimeMillis());
+		time = System.currentTimeMillis();
 		for (int quantity = minQuantity; quantity <= maxQuantity; quantity += stepQuantity) {
 			for (double quality = minQuality; quality <= maxQuality; quality += stepQuality) {
 				for (double price = minPrice; price <= maxPrice; price += stepPrice) {

@@ -28,8 +28,8 @@ public class MainWindow extends javax.swing.JFrame {
         
         System.out.println("creating new stage");
 		decUt = new DecisionUtils();
-		stage = decUt.newStage(new DataIn(1.0, 1.0, 1.0));
-		stage = decUt.newStage(new DataIn(1000000.0,100.0,10.0));
+		//stage = decUt.newStage(new DataIn(1.0, 1.0, 1.0));
+		stage = decUt.newStage(new DataIn(300000.0,0.0,20.0));
 		
 		// if(stage == null) System.out.println("du");
 		
